@@ -5,8 +5,9 @@ sources:
     tables:
       - name: yellow_tripdata
         description: >
-          Raw NYC yellow taxi trip records for all 12 months of 2025, read
-          directly from the NYC TLC's public HTTPS parquet host — no
+          Raw NYC yellow taxi trip records for the 2025 months published so
+          far by the TLC (Jan-Sep; later months 403 until TLC releases them),
+          read directly from the NYC TLC's public HTTPS parquet host — no
           download, load step, or S3 bucket required.
         meta:
           # dbt-duckdb's "external_location" tells the source where the
@@ -46,10 +47,7 @@ sources:
               'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-06.parquet',
               'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-07.parquet',
               'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-08.parquet',
-              'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-09.parquet',
-              'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-10.parquet',
-              'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-11.parquet',
-              'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-12.parquet'
+              'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-09.parquet'
             ])
 
 

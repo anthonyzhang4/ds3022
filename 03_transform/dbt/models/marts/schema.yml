@@ -37,6 +37,20 @@ models:
         tests:
           - not_null
 
+  - name: mart_tipping_by_payment_type
+    description: >
+      Tipping behavior by payment type (avg tip %, avg tip amount, and
+      share of $0-tip trips) — the credit-card-vs-cash grain for
+      QUESTIONS.md #6.
+    columns:
+      - name: payment_type_code
+        tests:
+          - unique
+          - not_null
+      - name: trip_count
+        tests:
+          - not_null
+
   - name: mart_location_rankings
     description: >
       Top 10 and bottom 10 taxi zones by trip count, ranked separately for
@@ -47,13 +61,11 @@ models:
         tests:
           - not_null
           - accepted_values:
-              arguments:
-                values: ['pickup', 'dropoff']
+              values: ['pickup', 'dropoff']
       - name: rank_group
         tests:
           - accepted_values:
-              arguments:
-                values: ['top', 'bottom']
+              values: ['top', 'bottom']
       - name: location_id
         tests:
           - not_null
