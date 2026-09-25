@@ -1,7 +1,5 @@
-
 # 01 - The happy path. No error handling at all.
 # Break it: misspell USER, or turn off Wi-Fi, and read the traceback.
-
 import httpx
 import json
 import logging
@@ -12,6 +10,11 @@ URL = "https://api.github.com/users/{user}/events/public"
 
 logging.basicConfig(
   filename = 'events.log',
+USER = "schaconz"
+URL = "https://api.github.com/users/{user}/events/public"
+
+logging.basicConfig(
+  filename = "events.log",
   level = logging.INFO,
   format = "%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -22,7 +25,7 @@ try:
   data = response.json()
 
   for item in data:
-     print(item["repo"]['name'], ' - ', item['type'])
+    print(item["repo"]["name"], " - ", item["type"])
 
   logging.info(f"Fetched {len(data)} events for {USER}")
 

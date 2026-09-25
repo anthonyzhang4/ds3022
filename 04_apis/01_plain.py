@@ -4,7 +4,7 @@
 import httpx
 import json
 
-USER = "schacon"
+USER = "schaconxyz"
 URL = "https://api.github.com/users/{user}/events/public"
 
 response = httpx.get(URL.format(user=USER))
@@ -12,4 +12,4 @@ response = httpx.get(URL.format(user=USER))
 data = response.json()
 
 for item in data:
-   print(item["repo"]['name'], ' - ', item['type'])
+  print(item["repo"]['name'], ' - ', item['type'])

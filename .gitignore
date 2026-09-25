@@ -240,3 +240,5 @@ __marimo__/
 
 # Raw API responses landed by 04_ingest/07_pipeline.py
 04_ingest/data/
+customers-2M.csv
+duckdb
