@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 """
-Reads puzzle messages from the "puzzle" topic and prints each one's key,
-timestamp, and full JSON value. Storing, sorting, and reassembling are left
-to you.
+Reads puzzle messages from the "puzzle" topic, stores each letter by its
+position, then sorts the positions and prints the reassembled phrase.
 """
 
 import os
@@ -23,7 +22,7 @@ app = Application(
     # consumer_extra_config={"broker.address.family": "v4"},
 )
 
-# Print every message until the topic goes quiet for MAX_EMPTY_POLLS seconds
+# Collect every letter until the topic goes quiet for MAX_EMPTY_POLLS seconds, then print the phrase
 def consume_messages():
     try:
         # No offset commits, so every run re-reads the topic from the start
@@ -31,6 +30,7 @@ def consume_messages():
             consumer.subscribe([TOPIC])
             print(f"Consuming from topic '{TOPIC}' on {KAFKA_BROKER}")
             empty_polls = 0
+            letters = {}  # maps order_no -> letter
             while empty_polls < MAX_EMPTY_POLLS:
                 msg = consumer.poll(1)
                 if msg is None:
@@ -44,15 +44,22 @@ def consume_messages():
                 # each are part of the `msg`: msg.key, msg.timestamp(), msg.value()
 
                 # key / timestamp / value
-                key = msg.key().decode("utf8")
+                #key = msg.key().decode("utf8")
 
                 # Kafka timestamps are (type, epoch milliseconds)
-                ts = datetime.fromtimestamp(msg.timestamp()[1] / 1000, tz=timezone.utc).isoformat()
+                #ts = datetime.fromtimestamp(msg.timestamp()[1] / 1000, tz=timezone.utc).isoformat()
 
                 # value is the actual json payload of the message content
                 value = json.loads(msg.value())
 
-                print(f"key={key} timestamp={ts} value={json.dumps(value)}")
+                # Store the letter under its position in the phrase
+                letters[value["order_no"]] = value["letter"]
+
+                #print(f"key={key} timestamp={ts} value={json.dumps(value)}")
+
+            # Put the positions in order and join their letters into the phrase
+            print(f"Got {len(letters)} letters")
+            print("".join(letters[i] for i in sorted(letters)))
     except Exception as e:
         print(f"Error consuming from Kafka: {e}")
 
